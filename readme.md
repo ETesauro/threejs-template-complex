@@ -5,10 +5,24 @@
 - src/
 
   - **script.js**: entry point
-  - Experience/
-    - Shaders/
-    - Utils/
-    - World/
+  - **Experience**/:
+    - **Shaders**/:
+      - **LoadingOverlay**/:
+    - **Utils**/:
+      - **Debug.js**:
+      - **EventEmitter.js**:
+      - **LoadersType.js**:
+      - **Resources.js**:
+      - **Sizes.js**:
+      - **Time.js**:
+    - **World**/:
+      - **Environment.js**:
+      - **LoadingOverlay.js**:
+      - **World.js**:
+    - **assets.js**:
+    - **Camera.js**:
+    - **Experience.js**:
+    - **Renderer.js**:
 
 - static/
   - _**sendrandomhumidity.yaml**_: takes care of sending a random value to the queue **iot/sensors/humidity**
