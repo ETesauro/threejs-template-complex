@@ -4,31 +4,29 @@
 
 - src/
 
-  - **script.js**: entry point
-  - **Experience**/:
-    - **Shaders**/:
-      - **LoadingOverlay**/:
-    - **Utils**/:
-      - **Debug.js**:
-      - **EventEmitter.js**:
-      - **LoadersType.js**:
-      - **Resources.js**:
-      - **Sizes.js**:
-      - **Time.js**:
-    - **World**/:
-      - **Environment.js**:
-      - **LoadingOverlay.js**:
-      - **World.js**:
-    - **assets.js**:
-    - **Camera.js**:
-    - **Experience.js**:
-    - **Renderer.js**:
+  - **script.js**: Entry point
+  - **Experience.js**/: Main class to start the entire Experience (**_singleton_**)
+  - **Shaders**/
+    - **LoadingOverlay**/: loading overlay shader files
+  - **Utils**/
+    - **Debug.js**:
+    - **EventEmitter.js**:
+    - **LoadersType.js**:
+    - **Resources.js**:
+    - **Sizes.js**:
+    - **Time.js**:
+  - **World**/
+    - **Environment.js**:
+    - **LoadingOverlay.js**:
+    - **World.js**:
+  - **assets.js**:
+  - **Camera.js**:
+  - **Experience.js**:
+  - **Renderer.js**:
 
 - static/
-  - _**sendrandomhumidity.yaml**_: takes care of sending a random value to the queue **iot/sensors/humidity**
-  - _**consumehumidity.yaml**_: takes care of processing received values and to warn the user or log data
-- **doc/**: everything related to documentation
-- **.env**: file containing settings for javascript scripts
+  - **models**/:
+  - **textures**/:
 
 ## Setup
 
