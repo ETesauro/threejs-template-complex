@@ -1,32 +1,32 @@
-# Three.js Journey
+# Three.js Template
 
 ## Template structure
 
 - src/
 
   - **script.js**: Entry point
-  - **Experience.js**/: Main class to start the entire Experience (**_singleton_**)
+  - **Experience.js**/
   - **Shaders**/
     - **LoadingOverlay**/: loading overlay shader files
   - **Utils**/
-    - **Debug.js**:
-    - **EventEmitter.js**:
-    - **LoadersType.js**:
-    - **Resources.js**:
-    - **Sizes.js**:
-    - **Time.js**:
+    - **Debug.js**: Lil-gui class
+    - **EventEmitter.js**: Class to implement event in Javascript
+    - **LoadersType.js**: Enum of file types to load
+    - **Resources.js**: Class to setup laoding overlay screen and load every resources from 'assets.js' file
+    - **Sizes.js**: Class responsible for page size and resize event
+    - **Time.js**: Class responsible for time event ('tick' event)
   - **World**/
-    - **Environment.js**:
-    - **LoadingOverlay.js**:
-    - **World.js**:
-  - **assets.js**:
-  - **Camera.js**:
-  - **Experience.js**:
-  - **Renderer.js**:
+    - **Environment.js**: Everything related with environment (Lights, EnvironmentMaps,etc...)
+    - **LoadingOverlay.js**: Loading Overlay screen (black screen)
+    - **World.js**: Class where to add every objects
+  - **assets.js**: Object where to specify all the resources to be loaded
+  - **Camera.js**: Class responsible for Camera details
+  - **Experience.js**: Main class to start the entire Experience (**_singleton_**)
+  - **Renderer.js**: Class responsible for Renderer details
 
 - static/
-  - **models**/:
-  - **textures**/:
+  - **models**/: Folder where to place every 3D Models
+  - **textures**/: Folder where to place every textures
 
 ## Setup
 
@@ -39,7 +39,13 @@ npm install
 
 # Run the local server at localhost:8080
 npm run dev
-
-# Build for production in the dist/ directory
-npm run build
 ```
+
+### Deploy on Vercel
+
+```
+# Deploy on Vercel
+npm run deploy
+```
+
+## Demo
