@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import Experience from '../Experience.js'
-import overlayVertexShader from '../shaders/loadingOverlay/vertex.glsl'
-import overlayFragmentShader from '../shaders/loadingOverlay/fragment.glsl'
+import overlayVertexShader from '../Shaders/loadingOverlay/vertex.glsl'
+import overlayFragmentShader from '../Shaders/loadingOverlay/fragment.glsl'
 
 export default class LoadingOverlay {
   constructor() {
