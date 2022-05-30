@@ -13,8 +13,6 @@ export default class Resources extends EventEmitter {
 
     // Setup
     this.items = {}
-    this.loadingBarElement = document.querySelector('.loading-bar')
-    this.loadingOverlay = this.experience.loadingOverlay.overlay
 
     this.setLoaders()
     this.startLoading()
@@ -62,31 +60,15 @@ export default class Resources extends EventEmitter {
   }
 
   handleLoadingComplete() {
-    // Wait a little
-    window.setTimeout(() => {
-      // Animate overlay
-      gsap.to(this.loadingOverlay.material.uniforms.uAlpha, {
-        duration: 3,
-        value: 0,
-        delay: 1,
-      })
-
-      // Update loadingBarElement
-      this.loadingBarElement.classList.add('ended')
-      this.loadingBarElement.style.transform = ''
-    }, 500)
-
     this.trigger('ready')
   }
 
   handleLoadingProgress(itemUrl, itemsLoaded, itemsTotal) {
-    // Calculate the progress and update the loadingBarElement
-    const progressRatio = itemsLoaded / itemsTotal
-    this.loadingBarElement.style.transform = `scaleX(${progressRatio})`
+    this.trigger('progress', [itemsLoaded / itemsTotal])
   }
 
   handleLoadingError(error) {
-    alert(error)
+    console.log(error)
   }
 
   sourceLoaded(source, file) {

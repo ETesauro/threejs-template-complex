@@ -3,12 +3,16 @@ import Environment from './Environment.js'
 import Fox from './Fox.js'
 import Floor from './Floor.js'
 import Buggy from './Buggy.js'
+import LoadingScreen from './LoadingScreen.js'
 
 export default class World {
   constructor() {
     this.experience = new Experience()
     this.scene = this.experience.scene
     this.resources = this.experience.resources
+
+    // Loading
+    this.loadingScreen = new LoadingScreen()
 
     // Setup
     this.resources.on('ready', () => {

@@ -1,4 +1,8 @@
-import LoaderType from './Utils/LoadersType.js'
+class LoaderType {
+  static CubeTexture = 'cubeTexture'
+  static Texture = 'texture'
+  static GLTFModel = 'gltfModel'
+}
 
 export default [
   {
