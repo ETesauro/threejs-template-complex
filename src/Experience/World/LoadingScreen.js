@@ -1,11 +1,14 @@
 import * as THREE from 'three'
 import Experience from '../Experience.js'
-import overlayVertexShader from '../Shaders/LoadingScreen/vertex.glsl'
-import overlayFragmentShader from '../Shaders/LoadingScreen/fragment.glsl'
+import overlayVertexShader from '../shaders/LoadingScreen/vertex.glsl'
+import overlayFragmentShader from '../shaders/LoadingScreen/fragment.glsl'
 import gsap from 'gsap'
+import EventEmitter from '../Utils/EventEmitter.js'
 
-export default class LoadingScreen {
+export default class LoadingScreen extends EventEmitter {
   constructor() {
+    super()
+
     this.experience = new Experience()
     this.resources = this.experience.resources
     this.scene = this.experience.scene
@@ -40,7 +43,7 @@ export default class LoadingScreen {
     window.setTimeout(() => {
       // Remove the overlay
       gsap.to(this.instance.material.uniforms.uAlpha, {
-        duration: 2,
+        duration: 1,
         value: 0,
         delay: 1,
       })
@@ -48,6 +51,8 @@ export default class LoadingScreen {
       // Update Loading Bar
       this.loadingBar.classList.add('ended')
       this.loadingBar.style.transform = ''
+
+      this.trigger('start')
     }, 500)
   }
 }

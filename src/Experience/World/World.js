@@ -3,6 +3,7 @@ import Environment from './Environment.js'
 import Fox from './Fox.js'
 import Floor from './Floor.js'
 import Buggy from './Buggy.js'
+import StartingScreen from './StartingScreen.js'
 import LoadingScreen from './LoadingScreen.js'
 
 export default class World {
@@ -13,14 +14,15 @@ export default class World {
 
     // Loading
     this.loadingScreen = new LoadingScreen()
+    // this.startingScreen = new StartingScreen()
 
     // Setup
-    this.resources.on('ready', () => {
+    this.loadingScreen.on('start', () => {
       // Add here some objects (before new Environment())
       // ...
       this.fox = new Fox()
       this.floor = new Floor()
-      this.buggy = new Buggy()
+      // this.buggy = new Buggy()
 
       this.environment = new Environment()
     })
