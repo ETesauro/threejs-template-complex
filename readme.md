@@ -7,17 +7,16 @@
   - **script.js**: Entry point
   - **Experience.js**/
   - **Shaders**/
-    - **LoadingOverlay**/: loading overlay shader files
+    - **LoadingScreen**/: loading screen shader files
   - **Utils**/
     - **Debug.js**: Lil-gui class
     - **EventEmitter.js**: Class to implement event in Javascript
-    - **LoadersType.js**: Enum of file types to load
-    - **Resources.js**: Class to setup laoding overlay screen and load every resources from 'assets.js' file
+    - **Resources.js**: Class to load every resources from 'assets.js' file
     - **Sizes.js**: Class responsible for page size and resize event
     - **Time.js**: Class responsible for time event ('tick' event)
   - **World**/
     - **Environment.js**: Everything related with environment (Lights, EnvironmentMaps,etc...)
-    - **LoadingOverlay.js**: Loading Overlay screen (black screen)
+    - **LoadingScreen.js**: Loading Screen screen (black screen)
     - **World.js**: Class where to add every objects
   - **assets.js**: Object where to specify all the resources to be loaded
   - **Camera.js**: Class responsible for Camera details
