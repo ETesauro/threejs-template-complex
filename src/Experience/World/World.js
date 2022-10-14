@@ -2,6 +2,7 @@ import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import Fox from './Fox.js'
 import Floor from './Floor.js'
+import Buggy from './Buggy.js'
 import EventEmitter from 'events'
 
 export default class World extends EventEmitter {
@@ -18,6 +19,7 @@ export default class World extends EventEmitter {
       // ...
       this.fox = new Fox()
       this.floor = new Floor()
+      this.buggy = new Buggy()
 
       this.environment = new Environment()
 

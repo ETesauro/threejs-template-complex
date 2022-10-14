@@ -17,7 +17,14 @@ export default class Preloader extends EventEmitter {
 
     // Setup
     this.loadingBar = document.querySelector('.loading-bar')
+    this.setOverlay()
 
+    // Events
+    this.resources.on('progress', (v) => this.loading(v))
+    this.world.on('worldready', () => this.worldReady())
+  }
+
+  setOverlay() {
     // Overlay
     const overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1)
     const overlayMaterial = new THREE.ShaderMaterial({
@@ -30,10 +37,6 @@ export default class Preloader extends EventEmitter {
     })
     this.overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
     this.scene.add(this.overlay)
-
-    // Events
-    this.resources.on('progress', (v) => this.loading(v))
-    this.world.on('worldready', () => this.worldReady())
   }
 
   loading(_progress) {
@@ -43,18 +46,43 @@ export default class Preloader extends EventEmitter {
   worldReady() {
     // Wait a little
     window.setTimeout(() => {
-      // Remove the overlay
-      gsap.to(this.overlay.material.uniforms.uAlpha, {
-        duration: 1,
+      this.setAssets()
+      this.intro()
+    }, 500)
+  }
+
+  setAssets() {
+    this.fox = this.experience.world.fox.model
+    this.buggy = this.experience.world.buggy.model
+  }
+
+  intro() {
+    // Remove Loading Bar
+    this.loadingBar.classList.add('ended')
+    this.loadingBar.style.transform = ''
+
+    // GSAP Timeline
+    this.timeline = new gsap.timeline()
+    this.timeline
+      // Remove overlay
+      .to(this.overlay.material.uniforms.uAlpha, {
         value: 0,
         delay: 1,
+        duration: 0.5,
       })
-
-      // Update Loading Bar
-      this.loadingBar.classList.add('ended')
-      this.loadingBar.style.transform = ''
-
-      this.emit('start')
-    }, 500)
+      // Scale Fox
+      .to(this.fox.scale, {
+        x: 0.02,
+        y: 0.02,
+        z: 0.02,
+        duration: 0.4,
+      })
+      // Scale Buggy
+      .to(this.buggy.scale, {
+        x: 0.01,
+        y: 0.01,
+        z: 0.01,
+        duration: 0.4,
+      })
   }
 }

@@ -24,7 +24,7 @@ export default class Fox {
 
   setModel() {
     this.model = this.resource.scene
-    this.model.scale.set(0.02, 0.02, 0.02)
+    // this.model.scale.set(0.02, 0.02, 0.02)
     this.scene.add(this.model)
 
     // Debug
@@ -37,6 +37,8 @@ export default class Fox {
         child.castShadow = true
       }
     })
+
+    this.model.scale.set(0, 0, 0)
   }
 
   setAnimation() {
