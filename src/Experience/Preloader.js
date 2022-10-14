@@ -1,17 +1,19 @@
 import * as THREE from 'three'
-import Experience from '../Experience.js'
-import overlayVertexShader from '../shaders/LoadingScreen/vertex.glsl'
-import overlayFragmentShader from '../shaders/LoadingScreen/fragment.glsl'
 import gsap from 'gsap'
-import EventEmitter from '../Utils/EventEmitter.js'
+import EventEmitter from 'events'
+import Experience from './Experience'
+import overlayVertexShader from './shaders/LoadingScreen/vertex.glsl'
+import overlayFragmentShader from './shaders/LoadingScreen/fragment.glsl'
 
-export default class LoadingScreen extends EventEmitter {
+export default class Preloader extends EventEmitter {
   constructor() {
     super()
 
     this.experience = new Experience()
-    this.resources = this.experience.resources
     this.scene = this.experience.scene
+    this.sizes = this.experience.sizes
+    this.resources = this.experience.resources
+    this.world = this.experience.world
 
     // Setup
     this.loadingBar = document.querySelector('.loading-bar')
@@ -26,23 +28,23 @@ export default class LoadingScreen extends EventEmitter {
       vertexShader: overlayVertexShader,
       fragmentShader: overlayFragmentShader,
     })
-    this.instance = new THREE.Mesh(overlayGeometry, overlayMaterial)
-    this.scene.add(this.instance)
+    this.overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
+    this.scene.add(this.overlay)
 
     // Events
-    this.resources.on('progress', (_progress) => this.loading(_progress))
-    this.resources.on('ready', () => this.ready())
+    this.resources.on('progress', (v) => this.loading(v))
+    this.world.on('worldready', () => this.worldReady())
   }
 
   loading(_progress) {
     this.loadingBar.style.transform = `scaleX(${_progress})`
   }
 
-  ready() {
+  worldReady() {
     // Wait a little
     window.setTimeout(() => {
       // Remove the overlay
-      gsap.to(this.instance.material.uniforms.uAlpha, {
+      gsap.to(this.overlay.material.uniforms.uAlpha, {
         duration: 1,
         value: 0,
         delay: 1,
@@ -52,7 +54,7 @@ export default class LoadingScreen extends EventEmitter {
       this.loadingBar.classList.add('ended')
       this.loadingBar.style.transform = ''
 
-      this.trigger('start')
+      this.emit('start')
     }, 500)
   }
 }

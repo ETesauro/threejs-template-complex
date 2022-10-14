@@ -6,7 +6,8 @@ import Debug from './Utils/Debug.js'
 import Camera from './Camera.js'
 import Renderer from './Renderer.js'
 import World from './World/World.js'
-import assets from './assets.js'
+import assets from './Utils/assets.js'
+import Preloader from './Preloader.js'
 
 let instance = null
 
@@ -31,6 +32,7 @@ export default class Experience {
     this.camera = new Camera()
     this.renderer = new Renderer()
     this.world = new World()
+    this.preloader = new Preloader()
 
     // Events
     this.sizes.on('resize', () => this.resize())
