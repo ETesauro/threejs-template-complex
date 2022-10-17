@@ -24,7 +24,7 @@ export default class Buggy {
   setModel() {
     this.model = this.resource.scene
     // this.model.scale.set(0.01, 0.01, 0.01)
-    this.model.position.set(1.5, 0.1, 0)
+    this.model.position.set(1.5, 0.05, 0)
     this.scene.add(this.model)
 
     // Debug

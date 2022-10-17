@@ -37,4 +37,9 @@ export default [
     type: LoaderType.GLTFModel,
     path: '/models/Buggy/glTF/Buggy.gltf',
   },
+  {
+    name: 'hamburgerModel',
+    type: LoaderType.GLTFModel,
+    path: '/models/Hamburger/glTF/Hamburger_animato.gltf',
+  },
 ]
