@@ -82,10 +82,14 @@ export default class Fox {
         playRunning: () => {
           this.animation.play('running')
         },
+        stop: () => {
+          this.animation.actions.current.stop()
+        },
       }
       this.debugFolder.add(debugObject, 'playIdle')
       this.debugFolder.add(debugObject, 'playWalking')
       this.debugFolder.add(debugObject, 'playRunning')
+      this.debugFolder.add(debugObject, 'stop')
     }
   }
 

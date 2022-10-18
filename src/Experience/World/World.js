@@ -5,6 +5,7 @@ import Floor from './Floor.js'
 import Buggy from './Buggy.js'
 import EventEmitter from 'events'
 import Hamburger from './Hamburger.js'
+import Table from './Table.js'
 
 export default class World extends EventEmitter {
   constructor() {
@@ -22,6 +23,7 @@ export default class World extends EventEmitter {
       this.floor = new Floor()
       this.buggy = new Buggy()
       this.hamburger = new Hamburger()
+      this.table = new Table()
 
       this.environment = new Environment()
 

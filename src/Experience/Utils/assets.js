@@ -42,4 +42,9 @@ export default [
     type: LoaderType.GLTFModel,
     path: '/models/Hamburger/glTF/Hamburger_animato.gltf',
   },
+  {
+    name: 'tableModel',
+    type: LoaderType.GLTFModel,
+    path: '/models/Table/glTF/Table.gltf',
+  },
 ]

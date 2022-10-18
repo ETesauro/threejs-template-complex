@@ -55,6 +55,7 @@ export default class Preloader extends EventEmitter {
     this.fox = this.experience.world.fox.model
     this.buggy = this.experience.world.buggy.model
     this.hamburger = this.experience.world.hamburger.model
+    this.table = this.experience.world.table.model
   }
 
   intro() {
@@ -83,6 +84,13 @@ export default class Preloader extends EventEmitter {
         x: 0.005,
         y: 0.005,
         z: 0.005,
+        duration: 0.4,
+      })
+      // Scale Table
+      .to(this.table.scale, {
+        x: 0.3,
+        y: 0.3,
+        z: 0.3,
         duration: 0.4,
       })
       // Scale Hamburger

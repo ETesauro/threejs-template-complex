@@ -24,7 +24,7 @@ export default class Hamburger {
 
   setModel() {
     this.model = this.resource.scene
-    this.model.position.set(0, 0, 2)
+    this.model.position.set(-2, 0.95, 0)
     this.scene.add(this.model)
 
     // Debug
@@ -46,10 +46,10 @@ export default class Hamburger {
     this.animation.mixer = new THREE.AnimationMixer(this.model)
     this.animation.actions = {}
 
-    this.animation.actions.roteante = this.animation.mixer.clipAction(
+    this.animation.actions.rotate = this.animation.mixer.clipAction(
       this.resource.animations[0]
     )
-    this.animation.actions.current = this.animation.actions.roteante
+    this.animation.actions.current = this.animation.actions.rotate
 
     this.animation.actions.current.play()
 
@@ -67,11 +67,15 @@ export default class Hamburger {
     // Debug
     if (this.debug.active) {
       const debugObject = {
-        playRoteante: () => {
-          this.animation.play('roteante')
+        playRotate: () => {
+          this.animation.play('rotate')
+        },
+        stop: () => {
+          this.animation.actions.current.stop()
         },
       }
-      this.debugFolder.add(debugObject, 'playRoteante')
+      this.debugFolder.add(debugObject, 'playRotate')
+      this.debugFolder.add(debugObject, 'stop')
     }
   }
 
