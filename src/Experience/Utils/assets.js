@@ -33,18 +33,18 @@ export default [
     path: '/models/Fox/glTF/Fox.gltf',
   },
   {
-    name: 'buggyModel',
-    type: LoaderType.GLTFModel,
-    path: '/models/Buggy/glTF/Buggy.gltf',
-  },
-  {
     name: 'hamburgerModel',
     type: LoaderType.GLTFModel,
-    path: '/models/Hamburger/glTF/Hamburger_animato.gltf',
+    path: '/models/Hamburger/glTF/Hamburger.gltf',
   },
   {
     name: 'tableModel',
     type: LoaderType.GLTFModel,
     path: '/models/Table/glTF/Table.gltf',
+  },
+  {
+    name: 'guyModel',
+    type: LoaderType.GLTFModel,
+    path: '/models/Guy/glTF/Guy.gltf',
   },
 ]

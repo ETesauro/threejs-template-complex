@@ -2,10 +2,10 @@ import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import Fox from './Fox.js'
 import Floor from './Floor.js'
-import Buggy from './Buggy.js'
 import EventEmitter from 'events'
 import Hamburger from './Hamburger.js'
 import Table from './Table.js'
+import Guy from './Guy.js'
 
 export default class World extends EventEmitter {
   constructor() {
@@ -21,9 +21,9 @@ export default class World extends EventEmitter {
       // ...
       this.fox = new Fox()
       this.floor = new Floor()
-      this.buggy = new Buggy()
       this.hamburger = new Hamburger()
       this.table = new Table()
+      this.guy = new Guy()
 
       this.environment = new Environment()
 
@@ -33,6 +33,6 @@ export default class World extends EventEmitter {
 
   update() {
     if (this.fox) this.fox.update()
-    if (this.hamburger) this.hamburger.update()
+    if (this.guy) this.guy.update()
   }
 }
