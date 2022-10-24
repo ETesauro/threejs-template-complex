@@ -38,21 +38,6 @@ export default [
     path: '/models/Fox/glTF/Fox.gltf',
   },
   {
-    name: 'hamburgerModel',
-    type: LoaderType.GLTFModel,
-    path: '/models/Hamburger/glTF/Hamburger.gltf',
-  },
-  {
-    name: 'tableModel',
-    type: LoaderType.GLTFModel,
-    path: '/models/Table/glTF/Table.gltf',
-  },
-  {
-    name: 'guyModel',
-    type: LoaderType.GLTFModel,
-    path: '/models/Guy/glTF/Guy.gltf',
-  },
-  {
     name: 'portalModel',
     type: LoaderType.GLTFModel,
     path: '/models/Portal/glb/Portal.glb',
