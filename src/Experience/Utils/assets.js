@@ -18,6 +18,11 @@ export default [
     ],
   },
   {
+    name: 'portalTexture',
+    type: LoaderType.Texture,
+    path: 'textures/portal/baked.jpg',
+  },
+  {
     name: 'dirtColorTexture',
     type: LoaderType.Texture,
     path: 'textures/dirt/color.jpg',
@@ -46,5 +51,10 @@ export default [
     name: 'guyModel',
     type: LoaderType.GLTFModel,
     path: '/models/Guy/glTF/Guy.gltf',
+  },
+  {
+    name: 'portalModel',
+    type: LoaderType.GLTFModel,
+    path: '/models/Portal/glb/Portal.glb',
   },
 ]
