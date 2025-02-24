@@ -1,9 +1,9 @@
 import * as THREE from 'three'
-import Experience from '../Experience.js'
-import portalFragmentShader from '../shaders/Portal/fragment.glsl'
-import portalVertexShader from '../shaders/Portal/vertex.glsl'
+import Experience from '../../Experience'
+import portalFragmentShader from '../../shaders/Portal/fragment.glsl'
+import portalVertexShader from '../../shaders/Portal/vertex.glsl'
 
-export default class Portal {
+export class Portal {
   constructor() {
     this.experience = new Experience()
     this.scene = this.experience.scene
@@ -31,6 +31,7 @@ export default class Portal {
     this.texture = this.resources.items.portalTexture
     this.texture.flipY = false
     this.texture.encoding = THREE.sRGBEncoding
+    this.texture.colorSpace = THREE.SRGBColorSpace
     this.bakedMaterial = new THREE.MeshBasicMaterial({ map: this.texture })
 
     // Pole Light Material
@@ -41,22 +42,18 @@ export default class Portal {
       uniforms: {
         uColorStart: { value: new THREE.Color(0x000000) },
         uColorEnd: { value: new THREE.Color(0xffffff) },
-        uTime: { value: 0 },
+        uTime: { value: 0 }
       },
       vertexShader: portalVertexShader,
       fragmentShader: portalFragmentShader,
-      side: THREE.DoubleSide,
+      side: THREE.DoubleSide
     })
 
     // Debug
     if (this.debug.active) {
-      this.debugFolder
-        .addColor(this.debugObject, 'portalColorStart')
-        .onChange(() => this.portalMaterial.uniforms.uColorStart.value.set(this.debugObject.portalColorStart))
+      this.debugFolder.addColor(this.debugObject, 'portalColorStart').onChange(() => this.portalMaterial.uniforms.uColorStart.value.set(this.debugObject.portalColorStart))
 
-      this.debugFolder
-        .addColor(this.debugObject, 'portalColorEnd')
-        .onChange(() => this.portalMaterial.uniforms.uColorEnd.value.set(this.debugObject.portalColorEnd))
+      this.debugFolder.addColor(this.debugObject, 'portalColorEnd').onChange(() => this.portalMaterial.uniforms.uColorEnd.value.set(this.debugObject.portalColorEnd))
     }
   }
 
@@ -70,10 +67,10 @@ export default class Portal {
     }
 
     // Find Objects
-    this.bakedMesh = this.model.children.find((child) => child.name === 'baked')
-    this.poleLightA = this.model.children.find((child) => child.name === 'poleLightA')
-    this.poleLightB = this.model.children.find((child) => child.name === 'poleLightB')
-    this.portalLight = this.model.children.find((child) => child.name === 'portalLight')
+    this.bakedMesh = this.model.children.find(child => child.name === 'baked')
+    this.poleLightA = this.model.children.find(child => child.name === 'poleLightA')
+    this.poleLightB = this.model.children.find(child => child.name === 'poleLightB')
+    this.portalLight = this.model.children.find(child => child.name === 'portalLight')
 
     // Add Materials
     this.poleLightA.material = this.poleLightMaterial
@@ -81,7 +78,6 @@ export default class Portal {
     this.portalLight.material = this.portalMaterial
     this.bakedMesh.material = this.bakedMaterial
 
-    this.model.scale.set(0, 0, 0)
     this.scene.add(this.model)
   }
 

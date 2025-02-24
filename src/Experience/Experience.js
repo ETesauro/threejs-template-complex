@@ -1,13 +1,8 @@
 import * as THREE from 'three'
-import Sizes from './Utils/Sizes.js'
-import Time from './Utils/Time.js'
-import Resources from './Utils/Resources.js'
-import Debug from './Utils/Debug.js'
-import Camera from './Camera.js'
-import Renderer from './Renderer.js'
-import World from './World/World.js'
-import assets from './Utils/assets.js'
-import Preloader from './Preloader.js'
+import { assets, Camera, Debug, Mouse, Resources, Sizes, Time } from './utils'
+import Preloader from './Preloader'
+import Renderer from './Renderer'
+import World from './world/World'
 
 let instance = null
 
@@ -23,10 +18,13 @@ export default class Experience {
     // Options
     this.canvas = canvas
 
-    // Setup
+    // Utils
     this.debug = new Debug()
     this.sizes = new Sizes()
     this.time = new Time()
+    this.mouse = new Mouse()
+
+    // Resources and World
     this.scene = new THREE.Scene()
     this.resources = new Resources(assets)
     this.camera = new Camera()
@@ -55,7 +53,7 @@ export default class Experience {
     this.time.off('tick')
 
     // Traverse the whole scene
-    this.scene.traverse((child) => {
+    this.scene.traverse(child => {
       // Test if it's a mesh
       if (child instanceof THREE.Mesh) {
         child.geometry.dispose()

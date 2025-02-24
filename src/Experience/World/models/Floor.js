@@ -1,7 +1,7 @@
 import * as THREE from 'three'
-import Experience from '../Experience.js'
+import Experience from '../../Experience.js'
 
-export default class Floor {
+export class Floor {
   constructor() {
     this.experience = new Experience()
     this.scene = this.experience.scene
@@ -36,7 +36,7 @@ export default class Floor {
   setMaterial() {
     this.material = new THREE.MeshStandardMaterial({
       map: this.textures.color,
-      normalMap: this.textures.normal,
+      normalMap: this.textures.normal
     })
   }
 

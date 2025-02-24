@@ -23,7 +23,7 @@ export default class Renderer {
     // Debug
     if (this.debug.active) {
       this.debugObject = {
-        clearColor: '#2f3e4b',
+        clearColor: '#2f3e4b'
       }
 
       this.debugFolder.addColor(this.debugObject, 'clearColor').onChange(() => {
@@ -33,12 +33,12 @@ export default class Renderer {
 
     this.instance = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialias: true,
+      antialias: true
     })
     this.instance.physicallyCorrectLights = true
     this.instance.outputEncoding = THREE.sRGBEncoding
     this.instance.toneMapping = THREE.CineonToneMapping
-    this.instance.toneMappingExposure = 1.75
+    this.instance.toneMappingExposure = 1
     this.instance.shadowMap.enabled = true
     this.instance.shadowMap.type = THREE.PCFSoftShadowMap
     this.instance.setClearColor('#2f3e4b')

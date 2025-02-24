@@ -1,7 +1,7 @@
 import * as THREE from 'three'
-import Experience from '../Experience'
+import Experience from '../../Experience'
 
-export default class Environment {
+export class Environment {
   constructor() {
     this.experience = new Experience()
     this.scene = this.experience.scene
@@ -39,41 +39,19 @@ export default class Environment {
       this.debugSunLightFolder = this.debugFolder.addFolder('sun light')
 
       // Helper Visible
-      this.debugSunLightFolder
-        .add(this.sunLightHelper, 'visible')
-        .name('helper visible')
+      this.debugSunLightFolder.add(this.sunLightHelper, 'visible').name('helper visible')
 
       // Intensity
-      this.debugSunLightFolder
-        .add(this.sunLight, 'intensity')
-        .name('intensity')
-        .min(0)
-        .max(10)
-        .step(0.001)
+      this.debugSunLightFolder.add(this.sunLight, 'intensity').name('intensity').min(0).max(10).step(0.001)
 
       // X - position
-      this.debugSunLightFolder
-        .add(this.sunLight.position, 'x')
-        .name('X-position')
-        .min(-5)
-        .max(5)
-        .step(0.001)
+      this.debugSunLightFolder.add(this.sunLight.position, 'x').name('X-position').min(-5).max(5).step(0.001)
 
       // Y - position
-      this.debugSunLightFolder
-        .add(this.sunLight.position, 'y')
-        .name('Y-position')
-        .min(-5)
-        .max(5)
-        .step(0.001)
+      this.debugSunLightFolder.add(this.sunLight.position, 'y').name('Y-position').min(-5).max(5).step(0.001)
 
       // Z - position
-      this.debugSunLightFolder
-        .add(this.sunLight.position, 'z')
-        .name('Z-position')
-        .min(-5)
-        .max(5)
-        .step(0.001)
+      this.debugSunLightFolder.add(this.sunLight.position, 'z').name('Z-position').min(-5).max(5).step(0.001)
     }
   }
 
@@ -86,11 +64,8 @@ export default class Environment {
     this.scene.environment = this.environmentMap.texture
 
     this.environmentMap.updateMaterials = () => {
-      this.scene.traverse((child) => {
-        if (
-          child instanceof THREE.Mesh &&
-          child.material instanceof THREE.MeshStandardMaterial
-        ) {
+      this.scene.traverse(child => {
+        if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
           child.material.envMap = this.environmentMap.texture
           child.material.envMapIntensity = this.environmentMap.intensity
           child.material.needsUpdate = true
@@ -102,17 +77,10 @@ export default class Environment {
     // Debug
     if (this.debug.active) {
       // Folder
-      this.debugEnvironmentMapFolder =
-        this.debugFolder.addFolder('environment map')
+      this.debugEnvironmentMapFolder = this.debugFolder.addFolder('environment map')
 
       // Intensity
-      this.debugEnvironmentMapFolder
-        .add(this.environmentMap, 'intensity')
-        .name('intensity')
-        .min(0)
-        .max(4)
-        .step(0.001)
-        .onChange(this.environmentMap.updateMaterials)
+      this.debugEnvironmentMapFolder.add(this.environmentMap, 'intensity').name('intensity').min(0).max(4).step(0.001).onChange(this.environmentMap.updateMaterials)
     }
   }
 }

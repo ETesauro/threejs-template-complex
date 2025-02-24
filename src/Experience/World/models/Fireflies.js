@@ -1,9 +1,9 @@
 import * as THREE from 'three'
-import Experience from '../Experience'
-import firefliesVertexShader from '../shaders/Fireflies/vertex.glsl'
-import firefliesFragmentShader from '../shaders/Fireflies/fragment.glsl'
+import Experience from '../../Experience'
+import firefliesVertexShader from '../../shaders/Fireflies/vertex.glsl'
+import firefliesFragmentShader from '../../shaders/Fireflies/fragment.glsl'
 
-export default class Fireflies {
+export class Fireflies {
   constructor() {
     this.experience = new Experience()
     this.scene = this.experience.scene
@@ -54,12 +54,12 @@ export default class Fireflies {
         uSize: { value: 370 },
         uTime: { value: 0 },
         uFrequency: { value: 1 },
-        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) }
       },
       vertexShader: firefliesVertexShader,
       fragmentShader: firefliesFragmentShader,
       blending: THREE.AdditiveBlending,
-      depthWrite: false,
+      depthWrite: false
     })
 
     // Debug

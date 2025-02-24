@@ -20,7 +20,7 @@ export default class Preloader extends EventEmitter {
     this.setOverlay()
 
     // Events
-    this.resources.on('progress', (v) => this.loading(v))
+    this.resources.on('progress', v => this.loading(v))
     this.world.on('worldready', () => this.worldReady())
   }
 
@@ -30,10 +30,10 @@ export default class Preloader extends EventEmitter {
     const overlayMaterial = new THREE.ShaderMaterial({
       transparent: true,
       uniforms: {
-        uAlpha: { value: 1 },
+        uAlpha: { value: 1 }
       },
       vertexShader: overlayVertexShader,
-      fragmentShader: overlayFragmentShader,
+      fragmentShader: overlayFragmentShader
     })
     this.overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
     this.scene.add(this.overlay)
@@ -52,7 +52,7 @@ export default class Preloader extends EventEmitter {
   }
 
   setAssets() {
-    // this.fox = this.experience.world.fox.model
+    this.fox = this.experience.world.fox.model
     this.portal = this.experience.world.portal.model
     this.fireflies = this.experience.world.fireflies
   }
@@ -69,27 +69,40 @@ export default class Preloader extends EventEmitter {
       .to(this.overlay.material.uniforms.uAlpha, {
         value: 0,
         delay: 1,
-        duration: 0.5,
+        duration: 0.5
       })
-      // // Scale Fox
-      // .to(this.fox.scale, {
-      //   x: 0.02,
-      //   y: 0.02,
-      //   z: 0.02,
-      //   ease: 'back.out(2.2)',
-      //   duration: 0.4,
-      // })
       // Scale Portal
-      .to(
+      .fromTo(
         this.portal.scale,
+        {
+          x: 0,
+          y: 0,
+          z: 0
+        },
         {
           x: 1,
           y: 1,
           z: 1,
           ease: 'back.out(2.2)',
-          duration: 0.4,
+          duration: 0.4
+        }
+      )
+
+      // Scale Fox
+      .fromTo(
+        this.fox.scale,
+        {
+          x: 0.0,
+          y: 0.0,
+          z: 0.0
         },
-        'portal'
+        {
+          x: 0.008,
+          y: 0.008,
+          z: 0.008,
+          ease: 'back.out(2.2)',
+          duration: 0.4
+        }
       )
   }
 }

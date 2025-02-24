@@ -5,10 +5,11 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import Experience from '../Experience.js'
 
-export default class Resources extends EventEmitter {
+export class Resources extends EventEmitter {
   constructor(assets) {
     super()
 
+    // Resources
     this.assets = assets
     this.experience = new Experience()
 
@@ -23,9 +24,8 @@ export default class Resources extends EventEmitter {
     // Loading Manager
     this.loadingManager = new THREE.LoadingManager(
       () => this.handleLoadingComplete(),
-      (itemUrl, itemsLoaded, itemsTotal) =>
-        this.handleLoadingProgress(itemUrl, itemsLoaded, itemsTotal),
-      (error) => this.handleLoadingError(error)
+      (itemUrl, itemsLoaded, itemsTotal) => this.handleLoadingProgress(itemUrl, itemsLoaded, itemsTotal),
+      error => this.handleLoadingError(error)
     )
 
     // Other loaders
@@ -35,9 +35,7 @@ export default class Resources extends EventEmitter {
     this.loaders.gltfLoader = new GLTFLoader(this.loadingManager)
     this.loaders.gltfLoader.setDRACOLoader(this.loaders.dracoLoader)
     this.loaders.textureLoader = new THREE.TextureLoader(this.loadingManager)
-    this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader(
-      this.loadingManager
-    )
+    this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader(this.loadingManager)
   }
 
   startLoading() {
@@ -45,17 +43,17 @@ export default class Resources extends EventEmitter {
     for (const source of this.assets) {
       switch (source.type) {
         case 'gltfModel':
-          this.loaders.gltfLoader.load(source.path, (file) => {
+          this.loaders.gltfLoader.load(source.path, file => {
             this.sourceLoaded(source, file)
           })
           break
         case 'texture':
-          this.loaders.textureLoader.load(source.path, (file) => {
+          this.loaders.textureLoader.load(source.path, file => {
             this.sourceLoaded(source, file)
           })
           break
         case 'cubeTexture':
-          this.loaders.cubeTextureLoader.load(source.path, (file) => {
+          this.loaders.cubeTextureLoader.load(source.path, file => {
             this.sourceLoaded(source, file)
           })
           break
