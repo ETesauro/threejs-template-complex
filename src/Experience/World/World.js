@@ -1,7 +1,7 @@
 import Experience from '../Experience.js'
 import EventEmitter from 'events'
 
-import { Fox, Fireflies, Portal } from './models/index.js'
+import { Fox, Fireflies, Portal, Room } from './models/index.js'
 import { Environment } from './lights/index.js'
 
 export default class World extends EventEmitter {
@@ -16,11 +16,12 @@ export default class World extends EventEmitter {
     this.resources.on('ready', () => {
       // Add here some objects (before new Environment())
       // ...
-      this.fox = new Fox()
-      this.portal = new Portal()
-      this.fireflies = new Fireflies()
+      // this.fox = new Fox()
+      // this.portal = new Portal()
+      this.room = new Room()
+      // this.fireflies = new Fireflies()
 
-      this.environment = new Environment()
+      // this.environment = new Environment()
 
       this.emit('worldready')
     })

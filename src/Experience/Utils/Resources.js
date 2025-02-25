@@ -42,20 +42,14 @@ export class Resources extends EventEmitter {
     // Load each source
     for (const source of this.assets) {
       switch (source.type) {
-        case 'gltfModel':
-          this.loaders.gltfLoader.load(source.path, file => {
-            this.sourceLoaded(source, file)
-          })
+        case 'gltf':
+          this.loaders.gltfLoader.load(source.path, file => this.sourceLoaded(source, file))
           break
         case 'texture':
-          this.loaders.textureLoader.load(source.path, file => {
-            this.sourceLoaded(source, file)
-          })
+          this.loaders.textureLoader.load(source.path, file => this.sourceLoaded(source, file))
           break
-        case 'cubeTexture':
-          this.loaders.cubeTextureLoader.load(source.path, file => {
-            this.sourceLoaded(source, file)
-          })
+        case 'cube':
+          this.loaders.cubeTextureLoader.load(source.path, file => this.sourceLoaded(source, file))
           break
       }
     }

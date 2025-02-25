@@ -1,9 +1,6 @@
-import * as THREE from 'three'
 import gsap from 'gsap'
 import EventEmitter from 'events'
 import Experience from './Experience'
-import overlayVertexShader from './shaders/Preloader/vertex.glsl'
-import overlayFragmentShader from './shaders/Preloader/fragment.glsl'
 
 export default class Preloader extends EventEmitter {
   constructor() {
@@ -16,31 +13,16 @@ export default class Preloader extends EventEmitter {
     this.world = this.experience.world
 
     // Setup
-    this.loadingBar = document.querySelector('.loading-bar')
-    this.setOverlay()
+    this.loadingContainer = document.querySelector('.loading-container')
+    // this.loadingBar = document.querySelector('.loading-bar')
 
     // Events
-    this.resources.on('progress', v => this.loading(v))
+    this.resources.on('progress', v => this.onProgress(v))
     this.world.on('worldready', () => this.worldReady())
   }
 
-  setOverlay() {
-    // Overlay
-    const overlayGeometry = new THREE.PlaneGeometry(2, 2, 1, 1)
-    const overlayMaterial = new THREE.ShaderMaterial({
-      transparent: true,
-      uniforms: {
-        uAlpha: { value: 1 }
-      },
-      vertexShader: overlayVertexShader,
-      fragmentShader: overlayFragmentShader
-    })
-    this.overlay = new THREE.Mesh(overlayGeometry, overlayMaterial)
-    this.scene.add(this.overlay)
-  }
-
-  loading(_progress) {
-    this.loadingBar.style.transform = `scaleX(${_progress})`
+  onProgress(_progress) {
+    // this.loadingBar.style.transform = `scaleX(${_progress})`
   }
 
   worldReady() {
@@ -52,57 +34,76 @@ export default class Preloader extends EventEmitter {
   }
 
   setAssets() {
-    this.fox = this.experience.world.fox.model
-    this.portal = this.experience.world.portal.model
-    this.fireflies = this.experience.world.fireflies
+    // this.fox = this.experience.world.fox.model
+    // this.portal = this.experience.world.portal.model
+    // this.fireflies = this.experience.world.fireflies
+    this.room = this.experience.world.room.group
   }
 
   intro() {
     // Remove Loading Bar
-    this.loadingBar.classList.add('ended')
-    this.loadingBar.style.transform = ''
+    // this.loadingBar.classList.add('ended')
+    // this.loadingBar.style.transform = ''
 
     // GSAP Timeline
     this.timeline = new gsap.timeline()
     this.timeline
-      // Remove overlay
-      .to(this.overlay.material.uniforms.uAlpha, {
-        value: 0,
+      // Remove Loading Container
+      .to(this.loadingContainer, {
+        opacity: 0,
         delay: 1,
         duration: 0.5
       })
-      // Scale Portal
-      .fromTo(
-        this.portal.scale,
-        {
-          x: 0,
-          y: 0,
-          z: 0
-        },
-        {
-          x: 1,
-          y: 1,
-          z: 1,
-          ease: 'back.out(2.2)',
-          duration: 0.4
-        }
-      )
 
-      // Scale Fox
+      // Scale Room
       .fromTo(
-        this.fox.scale,
+        this.room.scale,
         {
           x: 0.0,
           y: 0.0,
           z: 0.0
         },
         {
-          x: 0.008,
-          y: 0.008,
-          z: 0.008,
+          x: 0.7,
+          y: 0.7,
+          z: 0.7,
           ease: 'back.out(2.2)',
           duration: 0.4
         }
       )
+
+    // // Scale Portal
+    // .fromTo(
+    //   this.portal.scale,
+    //   {
+    //     x: 0,
+    //     y: 0,
+    //     z: 0
+    //   },
+    //   {
+    //     x: 1,
+    //     y: 1,
+    //     z: 1,
+    //     ease: 'back.out(2.2)',
+    //     duration: 0.4
+    //   }
+    // )
+
+    // // Scale Fox
+    // .fromTo(
+    //   this.fox.scale,
+    //   {
+    //     x: 0.0,
+    //     y: 0.0,
+    //     z: 0.0
+    //   },
+    //   {
+    //     x: 0.008,
+    //     y: 0.008,
+    //     z: 0.008,
+    //     ease: 'back.out(2.2)',
+    //     duration: 0.4
+    //   }
+    // )
   }
 }
