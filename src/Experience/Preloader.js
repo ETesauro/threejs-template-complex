@@ -7,14 +7,15 @@ export default class Preloader extends EventEmitter {
     super()
 
     this.experience = new Experience()
-    this.scene = this.experience.scene
     this.sizes = this.experience.sizes
     this.resources = this.experience.resources
     this.world = this.experience.world
 
     // Setup
     this.loadingContainer = document.querySelector('.loading-container')
-    // this.loadingBar = document.querySelector('.loading-bar')
+    this.loadingProgress = document.querySelector('#loading-progress')
+
+    this.contentContainer = document.querySelector('#content-container')
 
     // Events
     this.resources.on('progress', v => this.onProgress(v))
@@ -22,88 +23,51 @@ export default class Preloader extends EventEmitter {
   }
 
   onProgress(_progress) {
-    // this.loadingBar.style.transform = `scaleX(${_progress})`
+    this.loadingProgress.innerHTML = `${Math.round(_progress * 100)}%`
   }
 
   worldReady() {
     // Wait a little
     window.setTimeout(() => {
-      this.setAssets()
       this.intro()
-    }, 500)
-  }
-
-  setAssets() {
-    // this.fox = this.experience.world.fox.model
-    // this.portal = this.experience.world.portal.model
-    // this.fireflies = this.experience.world.fireflies
-    this.room = this.experience.world.room.group
+    }, 1000)
   }
 
   intro() {
-    // Remove Loading Bar
-    // this.loadingBar.classList.add('ended')
-    // this.loadingBar.style.transform = ''
+    // Retrieve assets for animations
+    this.room = this.experience.world.room.group
+
+    // Show UI
+    this.contentContainer.classList.remove('hidden')
 
     // GSAP Timeline
-    this.timeline = new gsap.timeline()
-    this.timeline
+    const timeline = new gsap.timeline({
+      defaults: {
+        duration: 0.5,
+        ease: 'back.out(2.2)'
+      }
+    })
+
+    timeline
       // Remove Loading Container
       .to(this.loadingContainer, {
-        opacity: 0,
-        delay: 1,
-        duration: 0.5
+        opacity: 0
       })
 
-      // Scale Room
-      .fromTo(
-        this.room.scale,
-        {
-          x: 0.0,
-          y: 0.0,
-          z: 0.0
-        },
-        {
-          x: 0.7,
-          y: 0.7,
-          z: 0.7,
-          ease: 'back.out(2.2)',
-          duration: 0.4
-        }
-      )
-
-    // // Scale Portal
-    // .fromTo(
-    //   this.portal.scale,
-    //   {
-    //     x: 0,
-    //     y: 0,
-    //     z: 0
-    //   },
-    //   {
-    //     x: 1,
-    //     y: 1,
-    //     z: 1,
-    //     ease: 'back.out(2.2)',
-    //     duration: 0.4
-    //   }
-    // )
-
-    // // Scale Fox
-    // .fromTo(
-    //   this.fox.scale,
-    //   {
-    //     x: 0.0,
-    //     y: 0.0,
-    //     z: 0.0
-    //   },
-    //   {
-    //     x: 0.008,
-    //     y: 0.008,
-    //     z: 0.008,
-    //     ease: 'back.out(2.2)',
-    //     duration: 0.4
-    //   }
-    // )
+    // Scale Room
+    timeline.fromTo(
+      this.room.scale,
+      {
+        x: 0.0,
+        y: 0.0,
+        z: 0.0
+      },
+      {
+        x: this.sizes.isMobile ? 0.55 : 0.7,
+        y: this.sizes.isMobile ? 0.55 : 0.7,
+        z: this.sizes.isMobile ? 0.55 : 0.7,
+        duration: 0.7
+      }
+    )
   }
 }

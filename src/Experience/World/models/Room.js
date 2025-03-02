@@ -1,7 +1,8 @@
 import * as THREE from 'three'
 import Experience from '../../Experience'
-import portalFragmentShader from '../../shaders/Portal/fragment.glsl'
-import portalVertexShader from '../../shaders/Portal/vertex.glsl'
+
+import { getScreenBounds } from '../../tools'
+
 import shadowCatcherFragmentShader from '../../shaders/shadowCatcher/fragment.glsl'
 import shadowCatcherVertexShader from '../../shaders/shadowCatcher/vertex.glsl'
 
@@ -10,6 +11,8 @@ export class Room {
     this.experience = new Experience()
     this.scene = this.experience.scene
     this.resources = this.experience.resources
+    this.camera = this.experience.camera
+    this.sizes = this.experience.sizes
     this.time = this.experience.time
     this.debug = this.experience.debug
 
@@ -27,11 +30,13 @@ export class Room {
     this.shadowCatcherResource = this.resources.items.shadowCatcherModel
 
     this.setMaterials()
-    this.setModel()
+    this.setModels()
+    this.setPositions()
   }
 
+  // -> START MATERIALS
   setMaterials() {
-    // Baked Texture
+    // Room Baked Texture
     this.roomTexture = this.resources.items.roomTexture
     this.roomTexture.flipY = false
     this.roomTexture.colorSpace = THREE.SRGBColorSpace
@@ -52,32 +57,23 @@ export class Room {
       fragmentShader: shadowCatcherFragmentShader
     })
 
-    // Pole Light Material
+    // Monitor Material
     this.monitorMaterial = new THREE.MeshBasicMaterial({ color: 0x3e3e42 })
-
-    // Portal Material
-    this.portalMaterial = new THREE.ShaderMaterial({
-      uniforms: {
-        uColorStart: { value: new THREE.Color(0x000000) },
-        uColorEnd: { value: new THREE.Color(0xffffff) },
-        uTime: { value: 0 }
-      },
-      vertexShader: portalVertexShader,
-      fragmentShader: portalFragmentShader,
-      side: THREE.DoubleSide
-    })
-
-    // Debug
-    if (this.debug.active) {
-      this.debugFolder.addColor(this.debugObject, 'portalColorStart').onChange(() => this.portalMaterial.uniforms.uColorStart.value.set(this.debugObject.portalColorStart))
-
-      this.debugFolder.addColor(this.debugObject, 'portalColorEnd').onChange(() => this.portalMaterial.uniforms.uColorEnd.value.set(this.debugObject.portalColorEnd))
-    }
   }
+  // -> END MATERIALS
 
-  setModel() {
+  // -> START MODELS
+  setModels() {
     this.group = new THREE.Group()
 
+    // Set Models
+    this.setRoom()
+    this.setShadowCatcher()
+
+    this.scene.add(this.group)
+  }
+
+  setRoom() {
     // All Model
     this.roomModel = this.roomResource.scene
 
@@ -86,7 +82,7 @@ export class Room {
       this.debugFolder.add(this.roomModel, 'visible')
     }
 
-    // Objects
+    // Room Objects
     this.desk = this.roomModel.children.find(child => child.name === 'desk')
     this.books = this.roomModel.children.find(child => child.name === 'books')
     this.guitar = this.roomModel.children.find(child => child.name === 'guitar')
@@ -104,20 +100,43 @@ export class Room {
     this.leftMonitor.material = this.monitorMaterial
     this.rightMonitor.material = this.monitorMaterial
 
-    this.group.add(this.roomModel)
+    this.group.add(this.roomModel) // * Add Room Model to Group
+  }
 
+  setShadowCatcher() {
     // Shadow Catcher
     this.shadowCatcherModel = this.shadowCatcherResource.scene
     this.shadowCatcher = this.shadowCatcherModel.children.find(child => child.name === 'shadow_catcher')
     this.shadowCatcher.material = this.shadowCatcherMaterial
-    this.group.add(this.shadowCatcherModel)
 
-    this.group.position.set(0.71, -1.17, 1.41)
-    this.group.rotation.set(0, 5.45, 0)
-    this.scene.add(this.group)
+    this.group.add(this.shadowCatcherModel) // * Add Shadow Catcher Model to Group
+  }
+  // -> END MODELS
+
+  // -> START POSITIONS
+  setPositions() {
+    if (this.sizes.isMobile) this.setMobilePosition()
+    else this.setDesktopPosition()
   }
 
-  update() {
-    this.portalMaterial.uniforms.uTime.value = this.time.elapsedTime
+  setDesktopPosition() {
+    this.group.position.set(0.71, -1.17, 1.41)
+    this.group.rotation.set(0, 5.45, 0)
+  }
+
+  setMobilePosition() {
+    const bounds = getScreenBounds(this.camera, this.sizes)
+
+    this.group.position.set(-0.32, bounds.bottom + this.group.scale.y / 2, 0)
+    this.group.rotation.set(0, -6.81, 0)
+  }
+  // -> END POSITIONS
+
+  // - Utils
+  update() {}
+
+  switchViewport(device) {
+    if (device === 'desktop') this.setDesktopPosition()
+    else this.setMobilePosition()
   }
 }

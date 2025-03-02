@@ -34,12 +34,17 @@ export default class Experience {
 
     // Events
     this.sizes.on('resize', () => this.resize())
+    this.sizes.on('switchViewport', v => this.switchViewport(v))
     this.time.on('tick', () => this.update())
   }
 
   resize() {
     this.camera.resize()
     this.renderer.resize()
+  }
+
+  switchViewport(device) {
+    this.world.switchViewport(device)
   }
 
   update() {
