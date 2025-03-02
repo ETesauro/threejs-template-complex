@@ -12,8 +12,11 @@ export class Camera {
     this.mouse = this.experience.mouse
     this.time = this.experience.time
 
+    this.scrollY = window.scrollY
+
     // Setup
     this.setInstance()
+    this.setScrollListeners()
     // this.setOrbitControls()
   }
 
@@ -23,13 +26,21 @@ export class Camera {
     this.scene.add(this.cameraGroup)
 
     // Perspective Camera
-    this.instance = new THREE.PerspectiveCamera(40, this.sizes.width / this.sizes.height, 0.1, 80)
-    this.instance.position.set(3, 3, 5)
+    this.cameraInitialPosition = new THREE.Vector3(0, 2.1, 7)
+    this.instance = new THREE.PerspectiveCamera(50, this.sizes.width / this.sizes.height, 0.1, 50)
+    this.instance.position.set(this.cameraInitialPosition.x, this.cameraInitialPosition.y, this.cameraInitialPosition.z)
     this.instance.lookAt(new THREE.Vector3(0, 0, 0))
-    // this.scene.add(this.instance)
+    this.instance.updateProjectionMatrix()
 
     // Add Camera to Group
+    // this.scene.add(this.instance)
     this.cameraGroup.add(this.instance)
+  }
+
+  setScrollListeners() {
+    window.addEventListener('scroll', () => {
+      this.scrollY = window.scrollY
+    })
   }
 
   setOrbitControls() {
@@ -52,7 +63,14 @@ export class Camera {
     // Parallax movement
     const parallaxX = this.mouse.cursor.x
     const parallaxY = -this.mouse.cursor.y
-    this.cameraGroup.position.x += (parallaxX * 0.5 - this.cameraGroup.position.x) * 1 * this.time.delta
-    this.cameraGroup.position.y += (parallaxY * 0.5 - this.cameraGroup.position.y) * 1 * this.time.delta
+    const deltaX = (parallaxX * 0.5 - this.cameraGroup.position.x) * 1 * this.time.delta
+    const deltaY = (parallaxY * 0.5 - this.cameraGroup.position.y) * 1 * this.time.delta
+
+    // Update Camera Position
+    this.instance.position.y = this.cameraInitialPosition.y + (-this.scrollY / this.sizes.height) * 4
+
+    // Limit the parallax movement to a maximum of 0.5 units
+    this.cameraGroup.position.x += Math.max(Math.min(deltaX, 0.5), -0.5)
+    this.cameraGroup.position.y += Math.max(Math.min(deltaY, 0.5), -0.5)
   }
 }
