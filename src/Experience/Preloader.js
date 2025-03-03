@@ -11,11 +11,13 @@ export default class Preloader extends EventEmitter {
     this.resources = this.experience.resources
     this.world = this.experience.world
 
-    // Setup
+    // Loading
     this.loadingContainer = document.querySelector('.loading-container')
     this.loadingProgress = document.querySelector('#loading-progress')
 
+    // UI Container and Sections
     this.contentContainer = document.querySelector('#content-container')
+    this.contentSections = document.querySelectorAll('section:not(#about-section)')
 
     // Events
     this.resources.on('progress', v => this.onProgress(v))
@@ -48,26 +50,18 @@ export default class Preloader extends EventEmitter {
       }
     })
 
-    timeline
-      // Remove Loading Container
-      .to(this.loadingContainer, {
-        opacity: 0
-      })
+    // Remove Loading Container
+    timeline.to(this.loadingContainer, { opacity: 0 })
 
     // Scale Room
-    timeline.fromTo(
-      this.room.scale,
-      {
-        x: 0.0,
-        y: 0.0,
-        z: 0.0
-      },
-      {
-        x: this.sizes.isMobile ? 0.55 : 0.7,
-        y: this.sizes.isMobile ? 0.55 : 0.7,
-        z: this.sizes.isMobile ? 0.55 : 0.7,
-        duration: 0.7
-      }
-    )
+    timeline
+      .fromTo(
+        this.room.scale,
+        { x: 0.0, y: 0.0, z: 0.0 },
+        { x: this.sizes.isMobile ? 0.55 : 0.7, y: this.sizes.isMobile ? 0.55 : 0.7, z: this.sizes.isMobile ? 0.55 : 0.7, duration: 0.7 }
+      )
+      // Show UI (inizia 0.2 secondi prima della fine dell'animazione della stanza)
+      .fromTo(this.contentContainer, { y: -200, opacity: 0 }, { y: 0, opacity: 1, ease: 'power4.out' }, '-=0.2')
+      .fromTo(this.contentSections, { opacity: 0 }, { opacity: 1 })
   }
 }

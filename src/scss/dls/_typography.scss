@@ -12,9 +12,11 @@ small {
 }
 
 .section-title {
-  color: variables.$color_title;
   font-size: min(9vmin, 5rem);
   font-weight: bold;
+
+  color: variables.$color_title;
+
   letter-spacing: -0.5px;
   line-height: 1.2;
 }

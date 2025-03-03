@@ -3,7 +3,6 @@
 @use 'dls/sizes';
 @use 'dls/typography';
 @use 'dls/utilities';
-@use 'dls/loading';
 @use 'dls/buttons';
 
 .webgl {
@@ -11,4 +10,30 @@
   top: 0;
   left: 0;
   outline: none;
+}
+
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+  opacity: 1;
+}
+
+.loading-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  font-size: 3rem;
+}
+
+#loading-progress {
+  font-size: 4rem;
+  font-weight: bold;
 }
