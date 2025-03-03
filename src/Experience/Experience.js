@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { assets, Camera, Debug, Mouse, Resources, Sizes, Time } from './utils'
+import { assets, Camera, Debug, Mouse, Resources, Sizes, Time } from './utils/index.js'
 import Preloader from './Preloader'
 import Renderer from './Renderer'
 import World from './world/World'
