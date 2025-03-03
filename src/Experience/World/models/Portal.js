@@ -30,7 +30,6 @@ export class Portal {
     // Baked Texture
     this.texture = this.resources.items.portalTexture
     this.texture.flipY = false
-    this.texture.encoding = THREE.sRGBEncoding
     this.texture.colorSpace = THREE.SRGBColorSpace
     this.bakedMaterial = new THREE.MeshBasicMaterial({ map: this.texture })
 
