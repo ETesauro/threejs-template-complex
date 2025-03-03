@@ -1,4 +1,4 @@
-export { assets } from './Assets'
+export { assets } from './assets'
 export { Camera } from './Camera'
 export { Debug } from './Debug'
 export { Mouse } from './Mouse'
