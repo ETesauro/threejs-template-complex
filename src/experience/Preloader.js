@@ -17,7 +17,7 @@ export default class Preloader extends EventEmitter {
 
     // UI Container and Sections
     this.contentContainer = document.querySelector('#content-container')
-    this.contentSections = document.querySelectorAll('section:not(#about-section)')
+    this.aboutSection = document.querySelector('#about-section')
 
     // Events
     this.resources.on('progress', v => this.onProgress(v))
@@ -31,37 +31,36 @@ export default class Preloader extends EventEmitter {
   worldReady() {
     // Wait a little
     window.setTimeout(() => {
-      this.intro()
+      this.playIntro()
     }, 1000)
   }
 
-  intro() {
-    // Retrieve assets for animations
-    this.room = this.experience.world.room.group
-
+  playIntro() {
     // Show UI
     this.contentContainer.classList.remove('hidden')
+
+    // Retrieve assets for animations
+    this.room = this.experience.world.room
+    const desiredRoomScale = this.sizes.isMobile ? 0.55 : 0.7
 
     // GSAP Timeline
     const timeline = new gsap.timeline({
       defaults: {
-        duration: 0.5,
-        ease: 'back.out(2.2)'
+        duration: 0.7,
+        ease: 'elastic(1, 1)'
       }
     })
 
     // Remove Loading Container
     timeline.to(this.loadingContainer, { opacity: 0 })
 
-    // Scale Room
+    // Animate Room
     timeline
-      .fromTo(
-        this.room.scale,
-        { x: 0.0, y: 0.0, z: 0.0 },
-        { x: this.sizes.isMobile ? 0.55 : 0.7, y: this.sizes.isMobile ? 0.55 : 0.7, z: this.sizes.isMobile ? 0.55 : 0.7, duration: 0.7 }
-      )
-      // Show UI (inizia 0.2 secondi prima della fine dell'animazione della stanza)
-      .fromTo(this.contentContainer, { y: -200, opacity: 0 }, { y: 0, opacity: 1, ease: 'power4.out' }, '-=0.2')
-      .fromTo(this.contentSections, { opacity: 0 }, { opacity: 1 })
+      // Scale desk group
+      .fromTo(this.room.group.scale, { x: 0.0, y: 0.0, z: 0.0 }, { x: desiredRoomScale, y: desiredRoomScale, z: desiredRoomScale, duration: 1 })
+      // Fade in UI
+      .fromTo(this.aboutSection, { y: -200, opacity: 0 }, { y: 0, opacity: 1, ease: 'power4.out', duration: 1 }, '<0.5') // Fai partire questa animazione 0.5 secondi dopo l'inizio della precedente animazione
+      // Fade in shadow catcher
+      .fromTo(this.room.shadowCatcherMaterial.uniforms.uOpacity, { value: 0 }, { value: 1, duration: 1, ease: 'power1.out' }, '<0') // Sincronizzata con la precedente (parte 0 secondi dopo la precedente)
   }
 }

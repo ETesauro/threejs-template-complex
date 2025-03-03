@@ -7,27 +7,41 @@ import shadowCatcherFragmentShader from '../../shaders/shadowCatcher/fragment.gl
 import shadowCatcherVertexShader from '../../shaders/shadowCatcher/vertex.glsl'
 
 export class Room {
+  #experience
+  #scene
+  #resources
+  #camera
+  #sizes
+  #time
+  #debug
+  #debugFolder
+
+  #roomResource
+  #roomTexture
+  #roomBakedMaterial
+  #roomMonitorMaterial
+
+  #shadowCatcherResource
+  #shadowCatcherTexture
+
   constructor() {
-    this.experience = new Experience()
-    this.scene = this.experience.scene
-    this.resources = this.experience.resources
-    this.camera = this.experience.camera
-    this.sizes = this.experience.sizes
-    this.time = this.experience.time
-    this.debug = this.experience.debug
+    this.#experience = new Experience()
+    this.#scene = this.#experience.scene
+    this.#resources = this.#experience.resources
+    this.#camera = this.#experience.camera
+    this.#sizes = this.#experience.sizes
+    this.#time = this.#experience.time
+    this.#debug = this.#experience.debug
 
     // Debug
-    if (this.debug.active) {
-      this.debugFolder = this.debug.ui.addFolder('room')
-      this.debugFolder.close()
-      this.debugObject = {}
-      this.debugObject.portalColorStart = '#000000'
-      this.debugObject.portalColorEnd = '#ffffff'
+    if (this.#debug.active) {
+      this.#debugFolder = this.#debug.ui.addFolder('room')
+      this.#debugFolder.close()
     }
 
     // Setup
-    this.roomResource = this.resources.items.roomModel
-    this.shadowCatcherResource = this.resources.items.shadowCatcherModel
+    this.#roomResource = this.#resources.items.roomModel
+    this.#shadowCatcherResource = this.#resources.items.shadowCatcherModel
 
     this.setMaterials()
     this.setModels()
@@ -37,85 +51,88 @@ export class Room {
   // -> START MATERIALS
   setMaterials() {
     // Room Baked Texture
-    this.roomTexture = this.resources.items.roomTexture
-    this.roomTexture.flipY = false
-    this.roomTexture.colorSpace = THREE.SRGBColorSpace
-    this.roomBakedMaterial = new THREE.MeshBasicMaterial({ map: this.roomTexture })
+    this.#roomTexture = this.#resources.items.roomTexture
+    this.#roomTexture.flipY = false
+    this.#roomTexture.colorSpace = THREE.SRGBColorSpace
+    this.#roomBakedMaterial = new THREE.MeshBasicMaterial({ map: this.#roomTexture })
 
     // Shadow Catcher Texture
-    this.shadowCatcherTexture = this.resources.items.shadowCatcherTexture
-    this.shadowCatcherTexture.flipY = false
-    this.shadowCatcherTexture.colorSpace = THREE.SRGBColorSpace
+    this.#shadowCatcherTexture = this.#resources.items.shadowCatcherTexture
+    this.#shadowCatcherTexture.flipY = false
+    this.#shadowCatcherTexture.colorSpace = THREE.SRGBColorSpace
     this.shadowCatcherMaterial = new THREE.ShaderMaterial({
       transparent: true,
       uniforms: {
         uColor: { value: new THREE.Color('#dbc3a0') },
         uOpacity: { value: 1 },
-        uAlphaMask: { value: this.shadowCatcherTexture }
+        uAlphaMask: { value: this.#shadowCatcherTexture }
       },
       vertexShader: shadowCatcherVertexShader,
       fragmentShader: shadowCatcherFragmentShader
     })
 
     // Monitor Material
-    this.monitorMaterial = new THREE.MeshBasicMaterial({ color: 0x3e3e42 })
+    this.#roomMonitorMaterial = new THREE.MeshBasicMaterial({ color: 0x3e3e42 })
   }
   // -> END MATERIALS
 
   // -> START MODELS
   setModels() {
-    this.group = new THREE.Group()
+    this.group = new THREE.Group() // Contiene roomGroup e shadowCatcher
 
     // Set Models
     this.setRoom()
     this.setShadowCatcher()
 
-    this.scene.add(this.group)
+    this.#scene.add(this.group)
   }
 
   setRoom() {
     // All Model
-    this.roomModel = this.roomResource.scene
+    const roomModel = this.#roomResource.scene
+    roomModel.name = 'room'
 
     // Debug
-    if (this.debug.active) {
-      this.debugFolder.add(this.roomModel, 'visible')
+    if (this.#debug.active) {
+      this.#debugFolder.add(roomModel, 'visible')
     }
 
     // Room Objects
-    this.desk = this.roomModel.children.find(child => child.name === 'desk')
-    this.books = this.roomModel.children.find(child => child.name === 'books')
-    this.guitar = this.roomModel.children.find(child => child.name === 'guitar')
-    this.lavagna = this.roomModel.children.find(child => child.name === 'lavagna')
-    this.quadro = this.roomModel.children.find(child => child.name === 'quadro')
-    this.leftMonitor = this.roomModel.children.find(child => child.name === 'left_monitor')
-    this.rightMonitor = this.roomModel.children.find(child => child.name === 'right_monitor')
+    this.desk = roomModel.children.find(child => child.name === 'desk')
+    this.leftMonitor = roomModel.children.find(child => child.name === 'left_monitor')
+    this.rightMonitor = roomModel.children.find(child => child.name === 'right_monitor')
+    this.books = roomModel.children.find(child => child.name === 'books')
+    this.guitar = roomModel.children.find(child => child.name === 'guitar')
+    this.lavagna = roomModel.children.find(child => child.name === 'lavagna')
+    this.quadro = roomModel.children.find(child => child.name === 'quadro')
 
     // Materials
-    this.desk.material = this.roomBakedMaterial
-    this.guitar.material = this.roomBakedMaterial
-    this.books.material = this.roomBakedMaterial
-    this.lavagna.material = this.roomBakedMaterial
-    this.quadro.material = this.roomBakedMaterial
-    this.leftMonitor.material = this.monitorMaterial
-    this.rightMonitor.material = this.monitorMaterial
+    this.desk.material = this.#roomBakedMaterial
+    this.leftMonitor.material = this.#roomMonitorMaterial
+    this.rightMonitor.material = this.#roomMonitorMaterial
+    this.guitar.material = this.#roomBakedMaterial
+    this.books.material = this.#roomBakedMaterial
+    this.lavagna.material = this.#roomBakedMaterial
+    this.quadro.material = this.#roomBakedMaterial
 
-    this.group.add(this.roomModel) // * Add Room Model to Group
+    this.group.add(roomModel) // * Add Room Model to Group
   }
 
   setShadowCatcher() {
     // Shadow Catcher
-    this.shadowCatcherModel = this.shadowCatcherResource.scene
-    this.shadowCatcher = this.shadowCatcherModel.children.find(child => child.name === 'shadow_catcher')
+    const shadowCatcherModel = this.#shadowCatcherResource.scene
+    shadowCatcherModel.name = 'shadow-catcher'
+
+    this.shadowCatcher = shadowCatcherModel.children.find(child => child.name === 'shadow_catcher')
     this.shadowCatcher.material = this.shadowCatcherMaterial
 
-    this.group.add(this.shadowCatcherModel) // * Add Shadow Catcher Model to Group
+    this.group.add(shadowCatcherModel) // * Add Shadow Catcher Model to Group
   }
   // -> END MODELS
 
   // -> START POSITIONS
   setPositions() {
-    if (this.sizes.isMobile) this.setMobilePosition()
+    if (this.#sizes.isMobile) this.setMobilePosition()
     else this.setDesktopPosition()
   }
 
@@ -125,7 +142,7 @@ export class Room {
   }
 
   setMobilePosition() {
-    const bounds = getScreenBounds(this.camera, this.sizes)
+    const bounds = getScreenBounds(this.#camera, this.#sizes)
 
     this.group.position.set(-0.32, bounds.bottom + this.group.scale.y / 2, 0)
     this.group.rotation.set(0, -6.81, 0)
