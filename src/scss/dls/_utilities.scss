@@ -1,0 +1,23 @@
+@use 'variables';
+@use 'sections/about';
+
+html {
+  background-color: variables.$color_background;
+}
+
+section {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+
+  // &:nth-child(odd) {
+  //   background-color: rgba(32, 178, 171, 0.235);
+  // }
+  // &:nth-child(even) {
+  //   background-color: rgba(178, 32, 32, 0.235);
+  // }
+}
+
+.hidden {
+  display: none;
+}

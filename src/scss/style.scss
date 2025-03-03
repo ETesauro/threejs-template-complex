@@ -1,0 +1,14 @@
+@use 'dls/variables';
+@use 'dls/reset';
+@use 'dls/sizes';
+@use 'dls/typography';
+@use 'dls/utilities';
+@use 'dls/loading';
+@use 'dls/buttons';
+
+.webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  outline: none;
+}
