@@ -9,6 +9,9 @@ export const assets = [
   // Room
   { name: 'roomTexture', type: LoaderType.texture, path: 'textures/room/room_baked.jpg' },
   { name: 'roomModel', type: LoaderType.gltf, path: '/models/Room/room.glb' },
+  { name: 'leftMonitorTexture', type: LoaderType.texture, path: 'textures/room/monitors/discord.png' },
+  { name: 'rightMonitorTexture', type: LoaderType.texture, path: 'textures/room/monitors/code.png' },
+  { name: 'smokeAlphaMap', type: LoaderType.texture, path: 'textures/smoke/alphaMap.png' },
 
   // Shadow Catcher
   { name: 'shadowCatcherTexture', type: LoaderType.texture, path: 'textures/room/shadow.jpg' },

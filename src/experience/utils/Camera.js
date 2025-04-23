@@ -16,7 +16,7 @@ export class Camera {
 
     // Setup
     this.setInstance()
-    this.setScrollListeners()
+    // this.setScrollListeners()
     // this.setOrbitControls()
   }
 
